@@ -1,43 +1,44 @@
 ﻿@page "/ManageUsers"
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>Manage Users</PageTitle>
 
 @using BlazorApp.Data
-@inject WeatherForecastService ForecastService
+@using Microsoft.AspNetCore.Identity;
+@inject IUserService IUserService;
 
 <AuthorizeView>
     <Authorized>
-<h1>Weather forecast</h1>
+<h1>Manage Users</h1>
 
-<p>This component demonstrates fetching data from a service.</p>
 
-        @if (forecasts == null)
+        @if (users == null)
         {
-        <p><em>Loading...</em></p>
+                    <p><em>Loading...</em></p>
         }
         else
         {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                    @foreach (var forecast in forecasts)
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th style="width: 10%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                    @foreach (var user in users)
                     {
                         <tr>
-                            <td>@forecast.Date.ToShortDateString()</td>
-                            <td>@forecast.TemperatureC</td>
-                            <td>@forecast.TemperatureF</td>
-                            <td>@forecast.Summary</td>
+                            <td>@user.Email</td>
+                            <td style="white-space: nowrap">
+                            <NavLink  href="@($"users/edit/{user.Id}")" class="btn btn-sm btn-primary mr-1">Edit</NavLink>
+                            <button @onclick="@(() => DeleteUser(user.Id))" class="btn btn-sm btn-danger btn-delete-user">    
+                                        <span>Delete</span>
+                            </button>
+                            </td>
                         </tr>
                     }
-            </tbody>
-        </table>
+                        </tbody>
+                    </table>
         }
     </Authorized>
      <NotAuthorized>
@@ -46,10 +47,17 @@
 </AuthorizeView>
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private List<IdentityUser> users;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        users = await IUserService.GetUsers();
+    }
+    private async void DeleteUser(string id) 
+    {
+        var user = users.First(x => x.Id == id);
+        await IUserService.DeleteUser(user);
+        users.Remove(user);
+        StateHasChanged();
     }
 }

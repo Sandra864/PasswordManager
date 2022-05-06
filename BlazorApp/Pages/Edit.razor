@@ -1,0 +1,64 @@
+﻿@page "/users/edit/{Id}"
+
+<PageTitle>Edit User</PageTitle>
+@using BlazorApp.Data
+@using Microsoft.AspNetCore.Identity;
+@inject IUserService IUserService;
+@inject NavigationManager NavigationManager;
+@attribute [Authorize]
+
+@if (model != null)
+{
+            <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+                <DataAnnotationsValidator />
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label>Email </label>
+                        <InputText @bind-Value="model.Email" class="form-control" />
+                        <ValidationMessage For="@(() => model.Email)" />
+                    </div>
+                    <div class="form-group col">
+                        <label>Password</label>
+                        <InputText @bind-Value="model.PasswordHash" class="form-control" />
+                        <ValidationMessage For="@(() => model.PasswordHash)" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button  class="btn btn-primary">
+                        Save
+                    </button>
+                    <NavLink href="MangerUsers" class="btn btn-link">Cancel</NavLink>
+                </div>
+            </EditForm>
+}
+else
+{
+            <div class="text-center p-3">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </div>
+}
+@code {
+    private IdentityUser model;
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await IUserService.GetById(Id);
+        model = user;
+    }
+
+    private async void OnValidSubmit()
+    {
+        try
+        {
+            await IUserService.UpdateUser(model);
+            NavigationManager.NavigateTo("ManageUsers");
+        }
+        catch (Exception ex)
+        {
+            StateHasChanged();
+        }
+    }
+}
