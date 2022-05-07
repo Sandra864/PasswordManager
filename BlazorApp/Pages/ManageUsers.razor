@@ -10,7 +10,7 @@
     <Authorized>
 <h1>Manage Users</h1>
 
-
+ <NavLink href="Identity/Account/Register" class="btn btn-sm btn-success mb-2">Add User</NavLink>
         @if (users == null)
         {
                     <p><em>Loading...</em></p>
@@ -20,7 +20,9 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Email</th>
+                                <th style="width: 30%">First Name</th>
+                                <th style="width: 30%">Last Name</th>
+                                <th style="width: 30%">Email</th>
                                 <th style="width: 10%"></th>
                             </tr>
                         </thead>
@@ -28,6 +30,8 @@
                     @foreach (var user in users)
                     {
                         <tr>
+                            <td>@user.firstName</td>
+                            <td>@user.lastName</td>
                             <td>@user.Email</td>
                             <td style="white-space: nowrap">
                             <NavLink  href="@($"users/edit/{user.Id}")" class="btn btn-sm btn-primary mr-1">Edit</NavLink>
@@ -47,7 +51,7 @@
 </AuthorizeView>
 
 @code {
-    private List<IdentityUser> users;
+    private List<ApplicationUser> users;
 
     protected override async Task OnInitializedAsync()
     {

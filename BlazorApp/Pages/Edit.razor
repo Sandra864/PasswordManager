@@ -3,6 +3,7 @@
 <PageTitle>Edit User</PageTitle>
 @using BlazorApp.Data
 @using Microsoft.AspNetCore.Identity;
+
 @inject IUserService IUserService;
 @inject NavigationManager NavigationManager;
 @attribute [Authorize]
@@ -11,23 +12,38 @@
 {
             <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
                 <DataAnnotationsValidator />
+                <ValidationSummary />
+                 <div class="form-row">
+                <div class="form-group col">
+                    <label>First Name</label>
+                    <InputText @bind-Value="model.firstName" class="form-control" />
+                    <ValidationMessage For="@(() => model.firstName)" />
+                </div>
+                <div class="form-group col">
+                    <label>Last Name</label>
+                    <InputText @bind-Value="model.lastName" class="form-control" />
+                    <ValidationMessage For="@(() => model.lastName)" />
+                </div>
+               </div>
                 <div class="form-row">
                     <div class="form-group col">
                         <label>Email </label>
                         <InputText @bind-Value="model.Email" class="form-control" />
                         <ValidationMessage For="@(() => model.Email)" />
                     </div>
+                 <br>
                     <div class="form-group col">
                         <label>Password</label>
-                        <InputText @bind-Value="model.PasswordHash" class="form-control" />
+                        <InputText @bind-Value="model.PasswordHash" class="form-control" typeof="password"/>
                         <ValidationMessage For="@(() => model.PasswordHash)" />
                     </div>
                 </div>
+                <br>
                 <div class="form-group">
                     <button  class="btn btn-primary">
                         Save
                     </button>
-                    <NavLink href="MangerUsers" class="btn btn-link">Cancel</NavLink>
+                    <NavLink href="ManageUsers" class="btn btn-link">Cancel</NavLink>
                 </div>
             </EditForm>
 }
@@ -38,7 +54,7 @@ else
             </div>
 }
 @code {
-    private IdentityUser model;
+    private ApplicationUser model;
 
     [Parameter]
     public string Id { get; set; }

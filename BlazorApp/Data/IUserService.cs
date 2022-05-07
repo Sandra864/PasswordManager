@@ -4,9 +4,9 @@ namespace BlazorApp.Data
 {
     public interface IUserService
     {
-        public Task<List<IdentityUser>> GetUsers();
-        public Task DeleteUser(IdentityUser user);
-        public Task UpdateUser(IdentityUser user);
-        public Task<IdentityUser> GetById(string Id);
+        public Task<List<ApplicationUser>> GetUsers();
+        public Task DeleteUser(ApplicationUser user);
+        public Task UpdateUser(ApplicationUser user);
+        public Task<ApplicationUser> GetById(string Id);
     }
 }
