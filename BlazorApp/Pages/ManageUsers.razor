@@ -30,8 +30,8 @@
                     @foreach (var user in users)
                     {
                         <tr>
-                            <td>@user.firstName</td>
-                            <td>@user.lastName</td>
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
                             <td>@user.Email</td>
                             <td style="white-space: nowrap">
                             <NavLink  href="@($"users/edit/{user.Id}")" class="btn btn-sm btn-primary mr-1">Edit</NavLink>
@@ -51,7 +51,7 @@
 </AuthorizeView>
 
 @code {
-    private List<ApplicationUser> users;
+    private List<UserViewModel> users;
 
     protected override async Task OnInitializedAsync()
     {
@@ -59,9 +59,9 @@
     }
     private async void DeleteUser(string id) 
     {
-        var user = users.First(x => x.Id == id);
-        await IUserService.DeleteUser(user);
-        users.Remove(user);
+        await IUserService.DeleteUser(id);
+        var userRemoved = users.First(x => x.Id == id);
+        users.Remove(userRemoved);
         StateHasChanged();
     }
 }

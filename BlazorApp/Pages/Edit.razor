@@ -1,6 +1,5 @@
 ﻿@page "/users/edit/{Id}"
 
-<PageTitle>Edit User</PageTitle>
 @using BlazorApp.Data
 @using Microsoft.AspNetCore.Identity;
 
@@ -9,49 +8,59 @@
 @attribute [Authorize]
 
 @if (model != null)
-{
-            <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
-                <DataAnnotationsValidator />
-                <ValidationSummary />
-                 <div class="form-row">
-                <div class="form-group col">
-                    <label>First Name</label>
-                    <InputText @bind-Value="model.firstName" class="form-control" />
-                    <ValidationMessage For="@(() => model.firstName)" />
-                </div>
-                <div class="form-group col">
-                    <label>Last Name</label>
-                    <InputText @bind-Value="model.lastName" class="form-control" />
-                    <ValidationMessage For="@(() => model.lastName)" />
-                </div>
-               </div>
-                <div class="form-row">
-                    <div class="form-group col">
-                        <label>Email </label>
-                        <InputText @bind-Value="model.Email" class="form-control" />
-                        <ValidationMessage For="@(() => model.Email)" />
-                    </div>
-                 <br>
-                    <div class="form-group col">
-                        <label>Password</label>
-                        <InputText @bind-Value="model.PasswordHash" class="form-control" typeof="password"/>
-                        <ValidationMessage For="@(() => model.PasswordHash)" />
-                    </div>
-                </div>
-                <br>
-                <div class="form-group">
-                    <button  class="btn btn-primary">
-                        Save
-                    </button>
-                    <NavLink href="ManageUsers" class="btn btn-link">Cancel</NavLink>
-                </div>
-            </EditForm>
+{  
+     <EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+         <DataAnnotationsValidator />
+         <ValidationSummary />
+         <div class="row">
+         <div class="col-md-5">
+             <div class="form-group">
+                <label><b>First Name</b></label>
+             <InputText @bind-Value="model.firstName" class="form-control" />
+             <ValidationMessage For="@(() => model.firstName)" />
+             </div>
+         </div>
+         <div class="col-md-5">
+             <div class="form-group">
+                 <label><b>Last Name</b></label>
+             <InputText @bind-Value="model.lastName" class="form-control" />
+             <ValidationMessage For="@(() => model.lastName)" />
+             </div>
+         </div>
+     </div>
+     <br>
+      <div class="row">
+         <div class="col-md-5">
+             <div class="form-group">
+                <label><b>Email </b></label>
+             <InputText @bind-Value="model.Email" class="form-control" />
+             <ValidationMessage For="@(() => model.Email)" />
+             </div>
+         </div>
+         <div class="col-md-5">
+             <div class="form-group">
+                 <label><b>Password</b>
+                      <small class="form-text text-muted">Donnot Modify to keep the same password</small>
+                 </label>
+             <InputText @bind-Value="model.PasswordHash" class="form-control" type="password" />
+             <ValidationMessage For="@(() => model.PasswordHash)" />
+             </div>
+         </div>
+     </div>
+     <br>
+         <div class="form-group">
+             <button  class="btn btn-primary">
+                 Save
+             </button>
+             <NavLink href="ManageUsers" class="btn btn-link">Cancel</NavLink>
+         </div>
+     </EditForm>
 }
 else
 {
-            <div class="text-center p-3">
-                <span class="spinner-border spinner-border-lg align-center"></span>
-            </div>
+     <div class="text-center p-3">
+         <span class="spinner-border spinner-border-lg align-center"></span>
+     </div>
 }
 @code {
     private ApplicationUser model;
