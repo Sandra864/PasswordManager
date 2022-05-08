@@ -1,5 +1,6 @@
 using BlazorApp.Areas.Identity;
 using BlazorApp.Data;
+using FluentValidation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -39,6 +40,7 @@ builder.Services.AddDataProtection()
         ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
     });
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddTransient<IValidator<ApplicationUser>, ApplicationUserValidator>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
